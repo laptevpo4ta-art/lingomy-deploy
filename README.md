@@ -1,14 +1,20 @@
 # lingomy-landing
 
-Лендинг для [Lingomy](https://t.me/lingomy_bot) — Telegram-бот для изучения английского.
+Лендинг для [Lingomy](https://t.me/LingomyBot) — **Telegram Mini App** для изучения английского с русского. Дерево уроков, стрики, сердечки, недельные лиги, AI-чат на Premium.
 
-Статический сайт без билда: чистый HTML + CSS в одном файле. Деплоится на GitHub Pages.
+Статический сайт без билда: чистый HTML + CSS в одном файле (~22 KB). Деплоится на GitHub Pages, домен `lingomy.com`.
+
+## Позиционирование (короткой строкой)
+
+Mini App в Telegram — как Duolingo, только проще: открывается прямо в чате, без отдельного приложения, объяснения на русском, оплата в Stars / картой / USDT.
 
 ## Структура
 
-- `index.html` — единственная страница (hero + features + steps + pricing + FAQ + footer)
+- `index.html` — единственная страница (hero + how-it-works + features + pricing + FAQ + final CTA + footer)
 - `CNAME` — кастомный домен `lingomy.com` для GitHub Pages
 - `terms.html` / `privacy.html` / `refund.html` — _TODO: правовые документы (выложить из docs/ репозитория бота)_
+
+Все CTA ведут на `https://t.me/LingomyBot?startapp=landing` — deep-link с attribution-payload `landing`. Бот по этому payload помечает источник пользователя.
 
 ## Локально посмотреть
 

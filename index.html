@@ -2,361 +2,777 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Lingomy — английский за 15 минут в день</title>
-<meta name="description" content="Telegram-бот для русскоязычных: Oxford 3000, AI-грамматика, умные повторения по системе Anki. 7 дней Premium бесплатно при старте.">
-<meta name="theme-color" content="#5b6cff">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Lingomy — английский внутри Telegram</title>
+<meta name="description" content="Mini App в Telegram: дерево уроков, стрики, сердечки, недельные лиги, AI-чат. Учи английский с русского — 5–15 минут в день. 7 дней Premium бесплатно.">
+<meta name="theme-color" content="#E07856">
+<meta name="color-scheme" content="light">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://lingomy.com/">
-<meta property="og:title" content="Lingomy — английский за 15 минут в день">
-<meta property="og:description" content="Oxford 3000 + AI-грамматика + SRS. Старт с 7 дней Premium бесплатно.">
+<meta property="og:title" content="Lingomy — английский внутри Telegram">
+<meta property="og:description" content="Mini App: дерево уроков, стрики, сердечки, лиги, AI-чат. 5–15 минут в день, 7 дней Premium бесплатно.">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="Lingomy">
+<meta name="twitter:card" content="summary_large_image">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+<link rel="canonical" href="https://lingomy.com/">
+<link rel="icon" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23E07856'/%3E%3Ctext x='50' y='70' font-family='-apple-system,Helvetica,sans-serif' font-size='62' font-weight='700' text-anchor='middle' fill='%23F4F1EA'%3EL%3C/text%3E%3C/svg%3E">
 
 <style>
   :root {
-    --bg: #fafbff;
-    --fg: #0f172a;
-    --muted: #64748b;
-    --accent: #5b6cff;
-    --accent-strong: #4453e5;
-    --surface: #ffffff;
-    --border: #e5e7f0;
-    --shadow: 0 6px 24px -8px rgba(20, 24, 80, .12);
+    --terra: #E07856;
+    --terra-deep: #C45F3E;
+    --terra-soft: #F2D4C5;
+    --cream: #F4F1EA;
+    --cream-deep: #ECE6D8;
+    --slate: #1A1E26;
+    --slate-2: #3A4150;
+    --muted: #6B6F7A;
+    --line: #E2DDD0;
+    --paper: #FBF9F3;
     --radius: 14px;
+    --radius-lg: 20px;
+    --shadow-sm: 0 1px 2px rgba(26,30,38,.04), 0 2px 8px rgba(26,30,38,.04);
+    --shadow-md: 0 4px 12px rgba(26,30,38,.06), 0 12px 32px -12px rgba(26,30,38,.12);
+    --shadow-cta: 0 8px 20px -6px rgba(224,120,86,.45);
   }
-  *,*::before,*::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: var(--fg);
-    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+    color: var(--slate);
+    background: var(--cream);
     line-height: 1.6;
     font-size: 17px;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
-  a { color: var(--accent-strong); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 22px; }
+  img, svg { display: block; max-width: 100%; }
+  a { color: var(--terra-deep); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-  /* ---- Hero ---- */
-  header.hero {
-    padding: 72px 0 56px;
-    text-align: center;
+  .wrap { width: 100%; max-width: 720px; margin: 0 auto; padding: 0 20px; }
+  .wrap-wide { max-width: 1080px; }
+
+  h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.18; margin: 0 0 14px; font-weight: 700; }
+  h1 { font-size: clamp(32px, 7.5vw, 56px); }
+  h2 { font-size: clamp(26px, 4.5vw, 36px); }
+  h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  p  { margin: 0 0 14px; }
+  .lead { color: var(--muted); font-size: clamp(16px, 2vw, 18px); margin: 0 0 36px; max-width: 540px; }
+
+  /* ---- Header / Hero ---- */
+  .topbar {
+    padding: 22px 0 0;
+  }
+  .brand {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 19px; letter-spacing: -0.01em;
+    color: var(--slate);
+  }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: var(--terra); color: var(--cream);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 17px;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.08);
+  }
+
+  .hero {
+    padding: 36px 0 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
     background:
-      radial-gradient(900px 360px at 50% 0%, rgba(91,108,255,.13), transparent 70%),
-      var(--bg);
+      radial-gradient(900px 380px at 90% -10%, rgba(224,120,86,.16), transparent 60%),
+      radial-gradient(700px 300px at 0% 10%, rgba(224,120,86,.08), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
   }
-  .logo {
+  .hero > .wrap { position: relative; z-index: 1; }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .pill {
     display: inline-flex; align-items: center; gap: 8px;
-    font-weight: 700; font-size: 20px; letter-spacing: -.01em;
-    color: var(--fg);
-    margin-bottom: 32px;
+    background: var(--terra-soft); color: var(--terra-deep);
+    border: 1px solid rgba(196,95,62,.22);
+    padding: 6px 13px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 600;
+    margin-bottom: 18px;
   }
-  .logo-mark {
-    display: inline-grid; place-items: center;
-    width: 32px; height: 32px; border-radius: 8px;
-    background: linear-gradient(135deg, var(--accent), #8a78ff);
-    color: #fff; font-size: 16px;
+  .pill .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--terra-deep);
+    box-shadow: 0 0 0 4px rgba(196,95,62,.18);
   }
-  h1 {
-    font-size: clamp(34px, 6.5vw, 52px);
-    line-height: 1.1; letter-spacing: -.02em;
-    margin: 0 0 18px;
-    font-weight: 700;
+
+  .hero h1 .accent { color: var(--terra-deep); }
+  .hero .sub {
+    color: var(--slate-2);
+    font-size: clamp(17px, 2.2vw, 20px);
+    max-width: 520px;
+    margin: 0 0 28px;
   }
-  h1 .accent {
-    background: linear-gradient(135deg, var(--accent), #8a78ff);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .sub {
-    color: var(--muted);
-    font-size: clamp(17px, 2.2vw, 19px);
-    max-width: 540px; margin: 0 auto 32px;
+
+  .cta-row {
+    display: flex; flex-wrap: wrap; gap: 12px 16px;
+    align-items: center; margin-bottom: 14px;
   }
   .cta {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--accent); color: #fff;
-    padding: 15px 28px; border-radius: 12px;
-    font-weight: 600; font-size: 17px;
-    box-shadow: 0 8px 24px -6px rgba(91,108,255,.45);
-    transition: transform .12s ease, box-shadow .2s ease;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--terra); color: #fff;
+    padding: 15px 26px; border-radius: 12px;
+    font-weight: 600; font-size: 16.5px;
+    box-shadow: var(--shadow-cta);
+    transition: transform .15s ease, box-shadow .2s ease, background .15s ease;
   }
-  .cta:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -6px rgba(91,108,255,.55); text-decoration: none; }
-  .cta-hint {
-    margin-top: 14px; color: var(--muted); font-size: 14px;
+  .cta:hover {
+    background: var(--terra-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px -6px rgba(224,120,86,.55);
+    text-decoration: none;
+    color: #fff;
   }
+  .cta:focus-visible {
+    outline: 3px solid rgba(224,120,86,.45); outline-offset: 3px;
+  }
+  .cta-ghost {
+    color: var(--slate-2); font-weight: 500; font-size: 15px;
+  }
+  .cta-ghost:hover { color: var(--terra-deep); }
+  .cta-note { color: var(--muted); font-size: 14px; }
 
-  /* ---- Section ---- */
-  section { padding: 56px 0; }
-  h2 {
-    font-size: clamp(26px, 4vw, 32px);
-    letter-spacing: -.01em; margin: 0 0 12px;
-    font-weight: 700;
+  /* ---- Mini App mock screenshot ---- */
+  .mock {
+    width: 100%;
+    max-width: 320px;
+    margin: 12px auto 0;
+    background: var(--paper);
+    border-radius: 28px;
+    padding: 14px 12px 18px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-md);
   }
-  .lead { color: var(--muted); margin: 0 0 32px; }
-
-  /* ---- Feature cards ---- */
-  .cards { display: grid; gap: 14px; grid-template-columns: 1fr; }
-  @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr 1fr; } }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px;
-    box-shadow: var(--shadow);
+  .mock-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 10px 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 12px;
   }
-  .card .emoji { font-size: 26px; display: block; margin-bottom: 10px; }
-  .card h3 { font-size: 17px; margin: 0 0 6px; }
-  .card p { margin: 0; color: var(--muted); font-size: 15px; }
-
-  /* ---- Steps ---- */
-  ol.steps { padding: 0; margin: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; }
-  ol.steps li {
-    counter-increment: s;
-    display: flex; gap: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px 22px;
+  .mock-bar .stats {
+    display: flex; gap: 12px; align-items: center;
+    font-weight: 600; color: var(--slate);
   }
-  ol.steps li::before {
-    content: counter(s);
-    flex: none;
-    width: 32px; height: 32px;
-    background: var(--accent); color: #fff;
+  .mock-bar .stat-hearts { color: var(--terra-deep); }
+  .mock-bar .stat-fire   { color: #D98326; }
+  .mock-tree {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px 6px;
+    padding: 6px 8px 4px;
+  }
+  .node {
+    width: 46px; height: 46px;
     border-radius: 50%;
     display: grid; place-items: center;
-    font-weight: 700; font-size: 14px;
+    font-size: 18px;
+    color: var(--slate);
+    border: 2px solid var(--line);
+    background: var(--cream);
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,.04);
+    position: relative;
+    grid-row: var(--row, auto);
+    grid-column: var(--col, auto);
+    justify-self: center;
   }
-  ol.steps strong { display: block; margin-bottom: 4px; }
-  ol.steps span { color: var(--muted); font-size: 15px; }
+  .node.done {
+    background: var(--terra);
+    color: #fff;
+    border-color: var(--terra-deep);
+    box-shadow: 0 4px 0 var(--terra-deep);
+  }
+  .node.current {
+    background: #fff;
+    border-color: var(--terra);
+    color: var(--terra-deep);
+    box-shadow: 0 0 0 4px rgba(224,120,86,.18), 0 4px 0 var(--terra-soft);
+  }
+  .node.locked {
+    color: #B7B0A0;
+    background: var(--cream-deep);
+  }
+  .mock-caption {
+    text-align: center;
+    margin-top: 14px;
+    padding: 8px 12px;
+    background: var(--cream);
+    border-radius: 10px;
+    color: var(--slate-2);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .mock-caption b { color: var(--terra-deep); }
+
+  /* ---- Sections ---- */
+  section { padding: 64px 0; }
+  section.alt { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .section-head {
+    margin-bottom: 36px;
+  }
+  .eyebrow {
+    display: inline-block;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    font-size: 12px; font-weight: 700; color: var(--terra-deep);
+    margin-bottom: 10px;
+  }
+
+  /* ---- Steps ---- */
+  .steps {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: 16px;
+    grid-template-columns: 1fr;
+  }
+  .step {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    display: flex; gap: 16px;
+    align-items: flex-start;
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .step:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .step-icon {
+    flex: none;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--terra-soft); color: var(--terra-deep);
+    display: grid; place-items: center;
+  }
+  .step-icon svg { width: 22px; height: 22px; }
+  .step-num {
+    font-size: 12px; font-weight: 700; color: var(--terra-deep);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .step h3 { margin: 0 0 4px; font-size: 17px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+  /* ---- Feature cards ---- */
+  .cards {
+    display: grid; gap: 14px;
+    grid-template-columns: 1fr;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--terra-soft);
+  }
+  .card-emoji {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--cream-deep);
+    display: grid; place-items: center;
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+  .card h3 { margin: 0 0 6px; }
+  .card p  { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
 
   /* ---- Pricing ---- */
-  .pricing { display: grid; gap: 14px; grid-template-columns: 1fr; }
-  @media (min-width: 640px) { .pricing { grid-template-columns: 1fr 1fr; } }
+  .pricing {
+    display: grid; gap: 16px;
+    grid-template-columns: 1fr;
+  }
   .plan {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 26px;
     position: relative;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 26px 24px;
+    box-shadow: var(--shadow-sm);
+    display: flex; flex-direction: column;
   }
   .plan.featured {
-    border-color: var(--accent);
-    box-shadow: 0 12px 32px -10px rgba(91,108,255,.35);
+    border-color: var(--terra);
+    background: linear-gradient(180deg, #fff 0%, #FFF6F1 100%);
+    box-shadow: 0 12px 30px -10px rgba(224,120,86,.32);
   }
-  .plan .badge {
-    position: absolute; top: -10px; right: 22px;
-    background: var(--accent); color: #fff;
-    font-size: 12px; font-weight: 600;
-    padding: 4px 10px; border-radius: 20px;
+  .plan-badge {
+    position: absolute; top: -11px; left: 24px;
+    background: var(--terra); color: #fff;
+    font-size: 11.5px; font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 5px 11px; border-radius: 999px;
+    text-transform: uppercase;
   }
-  .plan h3 { margin: 0 0 6px; font-size: 18px; }
-  .plan .price { font-size: 28px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 16px; }
-  .plan .price small { font-size: 14px; color: var(--muted); font-weight: 400; }
-  .plan ul { list-style: none; padding: 0; margin: 0; }
-  .plan li { color: var(--muted); padding: 6px 0 6px 22px; position: relative; font-size: 15px; }
+  .plan-badge.subtle {
+    background: var(--slate); color: var(--cream);
+  }
+  .plan-name {
+    font-size: 14px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .plan-price {
+    font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--slate);
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .plan-price small { font-size: 15px; font-weight: 500; color: var(--muted); }
+  .plan-tagline {
+    color: var(--muted); font-size: 14px; margin-bottom: 18px;
+  }
+  .plan ul { list-style: none; padding: 0; margin: 0 0 20px; }
+  .plan li {
+    color: var(--slate-2); font-size: 15px;
+    padding: 7px 0 7px 26px;
+    position: relative;
+    line-height: 1.45;
+  }
   .plan li::before {
-    content: "✓"; position: absolute; left: 0; top: 6px;
-    color: var(--accent); font-weight: 700;
+    content: ""; position: absolute; left: 0; top: 12px;
+    width: 16px; height: 16px;
+    background: var(--terra-soft);
+    border-radius: 50%;
   }
-  .plan li.off::before { content: "·"; color: #cbd5e1; }
+  .plan li::after {
+    content: ""; position: absolute; left: 4px; top: 16px;
+    width: 8px; height: 4px;
+    border-left: 2px solid var(--terra-deep);
+    border-bottom: 2px solid var(--terra-deep);
+    transform: rotate(-45deg);
+  }
+  .plan .plan-cta {
+    margin-top: auto;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 18px;
+    border-radius: 11px;
+    font-weight: 600; font-size: 15px;
+    border: 1.5px solid var(--slate); color: var(--slate);
+    background: transparent;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .plan .plan-cta:hover {
+    background: var(--slate); color: var(--cream);
+    text-decoration: none;
+  }
+  .plan.featured .plan-cta {
+    background: var(--terra); color: #fff; border-color: var(--terra);
+    box-shadow: var(--shadow-cta);
+  }
+  .plan.featured .plan-cta:hover {
+    background: var(--terra-deep); border-color: var(--terra-deep);
+  }
+  .pricing-note {
+    margin-top: 28px;
+    padding: 16px 20px;
+    background: var(--terra-soft);
+    border: 1px solid rgba(196,95,62,.18);
+    border-radius: var(--radius);
+    color: var(--terra-deep);
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .pricing-note b { font-weight: 700; }
 
   /* ---- FAQ ---- */
+  .faq { display: grid; gap: 10px; }
   details {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: #fff;
+    border: 1px solid var(--line);
     border-radius: var(--radius);
-    padding: 14px 20px;
-    margin-bottom: 10px;
+    padding: 4px 20px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  details[open] {
+    border-color: var(--terra-soft);
+    box-shadow: var(--shadow-sm);
   }
   details summary {
     cursor: pointer;
     font-weight: 600;
     list-style: none;
-    padding: 6px 0;
+    padding: 16px 36px 16px 0;
+    position: relative;
+    color: var(--slate);
+    font-size: 16px;
+    line-height: 1.4;
   }
   details summary::-webkit-details-marker { display: none; }
   details summary::after {
-    content: "+"; float: right; color: var(--muted); font-weight: 400;
-    font-size: 22px; line-height: 1;
+    content: "";
+    position: absolute;
+    right: 4px; top: 50%;
+    width: 12px; height: 12px;
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: translateY(-70%) rotate(45deg);
+    transition: transform .2s ease, border-color .2s ease;
   }
-  details[open] summary::after { content: "−"; }
-  details p { margin: 8px 0 4px; color: var(--muted); font-size: 15px; }
+  details[open] summary::after {
+    transform: translateY(-30%) rotate(-135deg);
+    border-color: var(--terra-deep);
+  }
+  details p { margin: 0 0 16px; color: var(--slate-2); font-size: 15px; line-height: 1.6; }
+  details p:last-child { margin-bottom: 18px; }
+
+  /* ---- Final CTA strip ---- */
+  .final {
+    text-align: center;
+    background: var(--slate);
+    color: var(--cream);
+    border-radius: var(--radius-lg);
+    padding: 44px 24px;
+    margin-top: 16px;
+  }
+  .final h2 { color: #fff; margin-bottom: 8px; }
+  .final p  { color: rgba(244,241,234,.75); margin: 0 auto 22px; max-width: 460px; }
+  .final .cta {
+    background: var(--terra);
+  }
 
   /* ---- Footer ---- */
   footer {
-    padding: 40px 0 56px;
+    padding: 36px 0 48px;
     color: var(--muted);
     font-size: 14px;
-    border-top: 1px solid var(--border);
-    margin-top: 32px;
     text-align: center;
   }
-  footer .links { margin: 12px 0; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
-  footer .links a { color: var(--muted); }
+  footer .links {
+    display: flex; gap: 22px; justify-content: center; flex-wrap: wrap;
+    margin: 0 0 14px;
+  }
+  footer .links a { color: var(--slate-2); font-weight: 500; }
+  footer .small { color: var(--muted); font-size: 13px; }
+
+  /* ---- Responsive ---- */
+  @media (min-width: 640px) {
+    .steps { grid-template-columns: repeat(3, 1fr); }
+    .step { flex-direction: column; }
+    .step-icon { margin-bottom: 4px; }
+    .cards { grid-template-columns: 1fr 1fr; }
+    .pricing { grid-template-columns: 1fr 1fr; }
+  }
+  @media (min-width: 1024px) {
+    .wrap-wide { padding: 0 32px; }
+    .hero { padding: 56px 0 88px; }
+    .hero-grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+    }
+    .mock { max-width: 340px; margin: 0; justify-self: end; }
+    .cards { grid-template-columns: repeat(3, 1fr); }
+    .pricing { grid-template-columns: repeat(3, 1fr); }
+    section { padding: 88px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    html { scroll-behavior: auto; }
+  }
 </style>
 </head>
 
 <body>
 
-<header class="hero">
-  <div class="wrap">
-    <div class="logo">
-      <span class="logo-mark">L</span>
+<div class="topbar">
+  <div class="wrap wrap-wide">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">L</span>
       Lingomy
-    </div>
-
-    <h1>Английский за <span class="accent">15 минут в&nbsp;день</span></h1>
-    <p class="sub">
-      Telegram-бот для тех, кто хочет реально начать говорить.
-      Лексика Oxford 3000, AI-грамматика, умные повторения по&nbsp;системе Anki.
-    </p>
-
-    <a class="cta" href="https://t.me/lingomy_bot" target="_blank" rel="noopener">
-      📚&nbsp;&nbsp;Открыть в&nbsp;Telegram
     </a>
-    <div class="cta-hint">7 дней Premium бесплатно при&nbsp;старте · без&nbsp;карты</div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap wrap-wide">
+    <div class="hero-grid">
+      <div>
+        <span class="pill"><span class="dot" aria-hidden="true"></span> 7 дней Premium бесплатно</span>
+        <h1>Английский <span class="accent">внутри Telegram</span> — как Duolingo, только проще</h1>
+        <p class="sub">
+          Mini App с деревом уроков, стриками, сердечками и недельными лигами.
+          5–15 минут в день — прямо в чате, без отдельного приложения.
+        </p>
+
+        <div class="cta-row">
+          <!-- TODO: подставить настоящий username бота, когда зарегистрируем -->
+          <a class="cta" href="https://t.me/LingomyBot?startapp=landing" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21.5 4.3 2.8 11.4c-.9.3-.9 1.6 0 1.9l4.5 1.4 1.7 5.4c.2.6.9.8 1.4.3l2.6-2.4 4.7 3.5c.6.5 1.5.1 1.7-.7l3.2-14.7c.2-.9-.7-1.7-1.6-1.4Z" fill="currentColor"/>
+            </svg>
+            Открыть в Telegram
+          </a>
+          <a class="cta-ghost" href="#how">Как это работает →</a>
+        </div>
+        <div class="cta-note">Без карты при регистрации. Учиться можно навсегда бесплатно.</div>
+      </div>
+
+      <!-- Mini App mock -->
+      <div class="mock" role="img" aria-label="Скриншот Mini App: дерево уроков с сердечками и стриком">
+        <div class="mock-bar">
+          <span>Basics 1 · Урок 4 из 5</span>
+          <span class="stats">
+            <span class="stat-fire">🔥 12</span>
+            <span class="stat-hearts">♥ 7</span>
+          </span>
+        </div>
+        <div class="mock-tree" aria-hidden="true">
+          <div class="node done"   style="--row:1; --col:3;">★</div>
+          <div class="node done"   style="--row:2; --col:2;">✓</div>
+          <div class="node done"   style="--row:2; --col:4;">A</div>
+          <div class="node done"   style="--row:3; --col:3;">📖</div>
+          <div class="node current" style="--row:4; --col:2;">🎧</div>
+          <div class="node locked" style="--row:4; --col:4;">🔒</div>
+          <div class="node locked" style="--row:5; --col:3;">🏆</div>
+        </div>
+        <div class="mock-caption">
+          Следующий шаг: <b>Listen &amp; type</b> · +10 XP
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
-<section>
-  <div class="wrap">
-    <h2>Что внутри</h2>
-    <p class="lead">Три инструмента, которые работают вместе.</p>
-
-    <div class="cards">
-      <div class="card">
-        <span class="emoji">🎯</span>
-        <h3>3000 нужных слов</h3>
-        <p>Лексика Oxford 3000 с произношением — словарь, на котором держится 80% речи.</p>
-      </div>
-      <div class="card">
-        <span class="emoji">🧠</span>
-        <h3>SRS как в&nbsp;Anki</h3>
-        <p>Повторения по алгоритму SM-2 — система показывает слово ровно тогда, когда ты вот-вот забудешь.</p>
-      </div>
-      <div class="card">
-        <span class="emoji">🤖</span>
-        <h3>AI-объяснения</h3>
-        <p>Грамматика и разбор ошибок на русском. Можно задать любой вопрос — объяснит просто.</p>
-      </div>
+<section id="how">
+  <div class="wrap wrap-wide">
+    <div class="section-head">
+      <span class="eyebrow">Как это устроено</span>
+      <h2>Три шага — и ты учишься</h2>
+      <p class="lead">Без скачиваний, регистраций и логинов. Учишь там, где уже переписываешься.</p>
     </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <h2>Как это работает</h2>
-    <p class="lead">15 минут в день — и через месяц у тебя 300 новых слов и привычка.</p>
 
     <ol class="steps">
-      <li>
+      <li class="step">
+        <div class="step-icon" aria-hidden="true">
+          <!-- chat icon -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M21 12c0 4.4-4 8-9 8-1.3 0-2.5-.2-3.6-.7L3 21l1.4-4.4C3.5 15.2 3 13.7 3 12c0-4.4 4-8 9-8s9 3.6 9 8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </div>
         <div>
-          <strong>Утром — 10 минут</strong>
-          <span>Бот присылает 5-10 новых слов с произношением. Каждое — с примером и переводом.</span>
+          <div class="step-num">Шаг 1</div>
+          <h3>Открой бот</h3>
+          <p>Жмёшь «Открыть в Telegram» — внутри чата открывается полноценное приложение. Ничего ставить не надо.</p>
         </div>
       </li>
-      <li>
+      <li class="step">
+        <div class="step-icon" aria-hidden="true">
+          <!-- compass / placement icon -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="m9 15 1.5-5L15 9l-1.5 5L9 15Z" fill="currentColor"/>
+          </svg>
+        </div>
         <div>
-          <strong>Вечером — 5 минут</strong>
-          <span>Короткое повторение по системе SRS. Только то, что вот-вот забудется.</span>
+          <div class="step-num">Шаг 2</div>
+          <h3>Пройди тест уровня</h3>
+          <p>Короткий placement — 10 вопросов. Дальше дерево уроков начнётся ровно с твоей точки, а не с алфавита.</p>
         </div>
       </li>
-      <li>
+      <li class="step">
+        <div class="step-icon" aria-hidden="true">
+          <!-- calendar / streak icon -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3.5" y="5" width="17" height="15" rx="2.5" stroke="currentColor" stroke-width="2"/>
+            <path d="M3.5 9.5h17" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 3.5v3M16 3.5v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="12" cy="14.5" r="2" fill="currentColor"/>
+          </svg>
+        </div>
         <div>
-          <strong>В&nbsp;свободные 5&nbsp;минут</strong>
-          <span>Грамматика с AI-объяснениями на русском, или живой чат с AI-собеседником (Premium).</span>
+          <div class="step-num">Шаг 3</div>
+          <h3>Учись 5–15 минут в день</h3>
+          <p>Стрик считает дни подряд, сердечки тратятся на ошибки. Возвращайся вечером — не растеряешь прогресс.</p>
         </div>
       </li>
     </ol>
   </div>
 </section>
 
-<section>
-  <div class="wrap">
-    <h2>Тарифы</h2>
-    <p class="lead">Free хватит чтобы понять, подходит ли. Premium — для тех, кто серьёзно.</p>
+<section class="alt">
+  <div class="wrap wrap-wide">
+    <div class="section-head">
+      <span class="eyebrow">Что внутри</span>
+      <h2>Всё, что делает Duolingo — и кое-что сверху</h2>
+      <p class="lead">Шесть механик, которые держат тебя в практике каждый день.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-emoji" aria-hidden="true">🌳</div>
+        <h3>Дерево уроков</h3>
+        <p>Курсы → юниты → уроки по 5–10 шагов. Семь типов заданий: vocab, перевод, listen-and-type, match, multiple choice, fill blank.</p>
+      </div>
+      <div class="card">
+        <div class="card-emoji" aria-hidden="true">🔥</div>
+        <h3>Стрики и сердечки</h3>
+        <p>10 сердечек в день, регенерация по одному в 4 часа. Стрик жжёт, если пропускаешь — бот напомнит до полуночи.</p>
+      </div>
+      <div class="card">
+        <div class="card-emoji" aria-hidden="true">🏆</div>
+        <h3>Недельные лиги</h3>
+        <p>50 человек в лиге, 6 тиров от Bronze до Diamond. По понедельникам — топ-10 наверх, низ-10 вниз. Чисто как в шахматах.</p>
+      </div>
+      <div class="card">
+        <div class="card-emoji" aria-hidden="true">👥</div>
+        <h3>Друзья и лидерборд</h3>
+        <p>Зови друзей через Telegram deep-link — один тап, никаких QR. У вас общий рейтинг и нотификации, кто кого обогнал.</p>
+      </div>
+      <div class="card">
+        <div class="card-emoji" aria-hidden="true">🤖</div>
+        <h3>AI-чат на Premium</h3>
+        <p>Свободный диалог с Claude Opus 4.7 — на английском, с разбором ошибок и подсказками по-русски. Без скриптов и тем.</p>
+      </div>
+      <div class="card">
+        <div class="card-emoji" aria-hidden="true">🎯</div>
+        <h3>Программа Oxford 3000</h3>
+        <p>3000 слов, на которых стоит 80% речи. Повторы зашиты в порядок уроков — забыть не дадим, зубрить не заставим.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap wrap-wide">
+    <div class="section-head">
+      <span class="eyebrow">Тарифы</span>
+      <h2>Free хватит понять — Premium для тех, кто всерьёз</h2>
+      <p class="lead">Без подписочных ловушек. Откажешься в любой момент, доступ остаётся до конца оплаченного периода.</p>
+    </div>
 
     <div class="pricing">
       <div class="plan">
-        <h3>Free</h3>
-        <div class="price">0 ₽<small> / навсегда</small></div>
+        <div class="plan-name">Free</div>
+        <div class="plan-price">0 ₽<small> / навсегда</small></div>
+        <div class="plan-tagline">Чтобы понять, твоё ли это.</div>
         <ul>
-          <li>5 новых слов в&nbsp;день</li>
-          <li>3 грамматических упражнения</li>
-          <li>30 повторений</li>
-          <li class="off">AI-чат с&nbsp;собеседником</li>
-          <li class="off">Кастомные темы грамматики</li>
+          <li>5 новых слов в день</li>
+          <li>10 сердечек в день (регенерация 1/4ч)</li>
+          <li>Базовые упражнения</li>
+          <li>Стрик и одна лига (Bronze)</li>
         </ul>
+        <a class="plan-cta" href="https://t.me/LingomyBot?startapp=landing" target="_blank" rel="noopener">Начать бесплатно</a>
       </div>
+
       <div class="plan featured">
-        <div class="badge">7&nbsp;дней бесплатно</div>
-        <h3>Premium</h3>
-        <div class="price">$7<small> / месяц</small></div>
+        <div class="plan-badge">Популярное</div>
+        <div class="plan-name">Premium Monthly</div>
+        <div class="plan-price">$7<small> / мес</small></div>
+        <div class="plan-tagline">29 PLN · 599 ₽ · 7 USDT</div>
         <ul>
-          <li>30 новых слов в&nbsp;день</li>
-          <li>Безлимит упражнений</li>
-          <li>Безлимит повторений</li>
-          <li>AI-чат с&nbsp;собеседником</li>
-          <li>Кастомные темы грамматики</li>
+          <li>Безлимит уроков и повторений</li>
+          <li>Сердечки без ограничений</li>
+          <li>AI-чат с Claude Opus 4.7</li>
+          <li>Все 6 лиг доступны</li>
+          <li>Все голоса TTS, перевод предложений</li>
         </ul>
+        <a class="plan-cta" href="https://t.me/LingomyBot?startapp=landing" target="_blank" rel="noopener">Попробовать 7 дней</a>
+      </div>
+
+      <div class="plan">
+        <div class="plan-badge subtle">Лучшая цена</div>
+        <div class="plan-name">Annual / Lifetime</div>
+        <div class="plan-price">$48<small> / год</small></div>
+        <div class="plan-tagline">или $120 один раз — Lifetime</div>
+        <ul>
+          <li>Всё из Premium Monthly</li>
+          <li>Экономия 43% на году</li>
+          <li>Lifetime — ни одной подписки больше</li>
+          <li>Приоритетная поддержка</li>
+        </ul>
+        <a class="plan-cta" href="https://t.me/LingomyBot?startapp=landing" target="_blank" rel="noopener">Выбрать тариф</a>
       </div>
     </div>
-    <p style="text-align:center; color:var(--muted); margin-top: 24px; font-size: 14px;">
-      Оплата: карта · Telegram&nbsp;Stars · USDT&nbsp;(TRC-20, +5&nbsp;дней&nbsp;Premium бонусом)
+
+    <p class="pricing-note">
+      💎 <b>Оплата в USDT — Premium на 5 дней больше.</b> Самая выгодная форма: Telegram Stars, карта (Stripe) или USDT&nbsp;TRC-20.
     </p>
   </div>
 </section>
 
-<section>
+<section class="alt" id="faq">
   <div class="wrap">
-    <h2>Частые вопросы</h2>
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Часто задаваемые вопросы</h2>
+    </div>
 
-    <details>
-      <summary>Сколько времени реально нужно тратить?</summary>
-      <p>15-20 минут в день. Можно разделить на «утро + вечер», можно делать одним блоком.</p>
-    </details>
+    <div class="faq">
+      <details>
+        <summary>Зачем Telegram? Почему не отдельное приложение?</summary>
+        <p>Потому что ещё одно приложение в телефон ставить никто не хочет. Telegram у тебя уже открыт по 30 раз в день — учиться в нём естественно. Никаких регистраций, паролей, восстановлений почты: твой Telegram-аккаунт и есть твой логин.</p>
+      </details>
+      <details>
+        <summary>Чем отличается от Duolingo?</summary>
+        <p>Три вещи. Во-первых, объяснения и интерфейс на русском — без обходных манёвров через английский. Во-вторых, упор на 80/20: словарь Oxford 3000, которым покрывается большинство реальных текстов. В-третьих, Lingomy живёт в Telegram — friends, нотификации, оплата звёздами, всё нативно.</p>
+      </details>
+      <details>
+        <summary>Можно ли заниматься с десктопа?</summary>
+        <p>Да. Mini App работает в Telegram Desktop и в веб-версии (web.telegram.org) точно так же, как на мобильнике. Прогресс синхронизируется, потому что аккаунт один.</p>
+      </details>
+      <details>
+        <summary>Как работают сердечки?</summary>
+        <p>На Free — 10 сердечек в день. Каждая ошибка стоит одно. Когда сердечки кончатся, придётся подождать: одно восстанавливается каждые 4 часа (полный сет — за сутки). На Premium сердечки безлимитные — ошибаешься сколько хочешь, прогресс не тормозится.</p>
+      </details>
+      <details>
+        <summary>Что с лигами и друзьями?</summary>
+        <p>Каждую неделю бот случайно собирает 50 человек в одну лигу. Топ-10 по XP идут на тир выше, нижние 10 — на тир ниже. 6 тиров: Bronze, Silver, Gold, Sapphire, Ruby, Diamond. Друзей зовёшь одним тапом через Telegram-ссылку — у вас будет общий лидерборд поверх лиги.</p>
+      </details>
+      <details>
+        <summary>Можно ли вернуть деньги?</summary>
+        <p>Да, в течение 7 дней с момента покупки — без вопросов и объяснений. Это касается всех тарифов, включая Lifetime. Пиши в поддержку прямо из бота.</p>
+      </details>
+      <details>
+        <summary>Что с моими данными?</summary>
+        <p>Храним только то, что нужно для работы: Telegram-ID, прогресс уроков, историю платежей. Не продаём, не передаём третьим лицам. Удалить всё одной командой — <code>/delete_my_data</code>. Подробности — на <a href="/privacy">странице конфиденциальности</a> <em>(скоро)</em>.</p>
+      </details>
+    </div>
 
-    <details>
-      <summary>Что если я не знаю английский совсем?</summary>
-      <p>Бот стартует с уровня A0-A1. Объясняет всё на&nbsp;русском, постепенно подводит к&nbsp;уверенному A2-B1.</p>
-    </details>
-
-    <details>
-      <summary>Чем отличается от Duolingo?</summary>
-      <p>Дешевле, заточен под русскоязычных (объяснения на русском), нет «игровой» части — больше реальной практики. И&nbsp;есть оплата в&nbsp;USDT.</p>
-    </details>
-
-    <details>
-      <summary>Что с&nbsp;моими данными?</summary>
-      <p>Храним только Telegram&nbsp;ID, прогресс и историю платежей. Можно удалить всё одной командой <code>/delete_my_data</code>. Подробнее — в&nbsp;Политике конфиденциальности.</p>
-    </details>
-
-    <details>
-      <summary>Можно вернуть деньги?</summary>
-      <p>В&nbsp;течение 7&nbsp;дней с момента покупки — да, без вопросов. Подробнее — в&nbsp;Политике возвратов.</p>
-    </details>
+    <div class="final">
+      <h2>Готов начать?</h2>
+      <p>Открой бот, пройди тест уровня — и через 5 минут у тебя будет первый урок и первое сердечко на счету.</p>
+      <a class="cta" href="https://t.me/LingomyBot?startapp=landing" target="_blank" rel="noopener">Открыть в Telegram</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <a class="cta" href="https://t.me/lingomy_bot" target="_blank" rel="noopener" style="font-size:15px; padding:12px 22px;">
-      Начать&nbsp;в&nbsp;Telegram
-    </a>
+  <div class="wrap wrap-wide">
     <div class="links">
-      <a href="/terms.html">Условия использования</a>
-      <a href="/privacy.html">Конфиденциальность</a>
-      <a href="/refund.html">Возвраты</a>
+      <a href="https://t.me/LingomyBot" target="_blank" rel="noopener">Telegram-бот</a>
+      <a href="#faq">FAQ</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="mailto:hello@lingomy.com">hello@lingomy.com</a>
     </div>
-    <div>© 2026 Lingomy · <a href="mailto:hello@lingomy.com">hello@lingomy.com</a></div>
+    <div>© 2026 Lingomy</div>
+    <div class="small">Made with 🍷 in Warsaw</div>
   </div>
 </footer>
 
