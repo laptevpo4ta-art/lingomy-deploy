@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lingomy — английский за 15 минут в день</title>
+<meta name="description" content="Telegram-бот для русскоязычных: Oxford 3000, AI-грамматика, умные повторения по системе Anki. 7 дней Premium бесплатно при старте.">
+<meta name="theme-color" content="#5b6cff">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lingomy.com/">
+<meta property="og:title" content="Lingomy — английский за 15 минут в день">
+<meta property="og:description" content="Oxford 3000 + AI-грамматика + SRS. Старт с 7 дней Premium бесплатно.">
+<meta property="og:locale" content="ru_RU">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📚%3C/text%3E%3C/svg%3E">
+
+<style>
+  :root {
+    --bg: #fafbff;
+    --fg: #0f172a;
+    --muted: #64748b;
+    --accent: #5b6cff;
+    --accent-strong: #4453e5;
+    --surface: #ffffff;
+    --border: #e5e7f0;
+    --shadow: 0 6px 24px -8px rgba(20, 24, 80, .12);
+    --radius: 14px;
+  }
+  *,*::before,*::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-strong); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 22px; }
+
+  /* ---- Hero ---- */
+  header.hero {
+    padding: 72px 0 56px;
+    text-align: center;
+    background:
+      radial-gradient(900px 360px at 50% 0%, rgba(91,108,255,.13), transparent 70%),
+      var(--bg);
+  }
+  .logo {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; font-size: 20px; letter-spacing: -.01em;
+    color: var(--fg);
+    margin-bottom: 32px;
+  }
+  .logo-mark {
+    display: inline-grid; place-items: center;
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--accent), #8a78ff);
+    color: #fff; font-size: 16px;
+  }
+  h1 {
+    font-size: clamp(34px, 6.5vw, 52px);
+    line-height: 1.1; letter-spacing: -.02em;
+    margin: 0 0 18px;
+    font-weight: 700;
+  }
+  h1 .accent {
+    background: linear-gradient(135deg, var(--accent), #8a78ff);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sub {
+    color: var(--muted);
+    font-size: clamp(17px, 2.2vw, 19px);
+    max-width: 540px; margin: 0 auto 32px;
+  }
+  .cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #fff;
+    padding: 15px 28px; border-radius: 12px;
+    font-weight: 600; font-size: 17px;
+    box-shadow: 0 8px 24px -6px rgba(91,108,255,.45);
+    transition: transform .12s ease, box-shadow .2s ease;
+  }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -6px rgba(91,108,255,.55); text-decoration: none; }
+  .cta-hint {
+    margin-top: 14px; color: var(--muted); font-size: 14px;
+  }
+
+  /* ---- Section ---- */
+  section { padding: 56px 0; }
+  h2 {
+    font-size: clamp(26px, 4vw, 32px);
+    letter-spacing: -.01em; margin: 0 0 12px;
+    font-weight: 700;
+  }
+  .lead { color: var(--muted); margin: 0 0 32px; }
+
+  /* ---- Feature cards ---- */
+  .cards { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .cards { grid-template-columns: 1fr 1fr 1fr; } }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .card .emoji { font-size: 26px; display: block; margin-bottom: 10px; }
+  .card h3 { font-size: 17px; margin: 0 0 6px; }
+  .card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  /* ---- Steps ---- */
+  ol.steps { padding: 0; margin: 0; list-style: none; counter-reset: s; display: grid; gap: 14px; }
+  ol.steps li {
+    counter-increment: s;
+    display: flex; gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+  }
+  ol.steps li::before {
+    content: counter(s);
+    flex: none;
+    width: 32px; height: 32px;
+    background: var(--accent); color: #fff;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 14px;
+  }
+  ol.steps strong { display: block; margin-bottom: 4px; }
+  ol.steps span { color: var(--muted); font-size: 15px; }
+
+  /* ---- Pricing ---- */
+  .pricing { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .pricing { grid-template-columns: 1fr 1fr; } }
+  .plan {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px;
+    position: relative;
+  }
+  .plan.featured {
+    border-color: var(--accent);
+    box-shadow: 0 12px 32px -10px rgba(91,108,255,.35);
+  }
+  .plan .badge {
+    position: absolute; top: -10px; right: 22px;
+    background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 600;
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .plan h3 { margin: 0 0 6px; font-size: 18px; }
+  .plan .price { font-size: 28px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 16px; }
+  .plan .price small { font-size: 14px; color: var(--muted); font-weight: 400; }
+  .plan ul { list-style: none; padding: 0; margin: 0; }
+  .plan li { color: var(--muted); padding: 6px 0 6px 22px; position: relative; font-size: 15px; }
+  .plan li::before {
+    content: "✓"; position: absolute; left: 0; top: 6px;
+    color: var(--accent); font-weight: 700;
+  }
+  .plan li.off::before { content: "·"; color: #cbd5e1; }
+
+  /* ---- FAQ ---- */
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    margin-bottom: 10px;
+  }
+  details summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    padding: 6px 0;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after {
+    content: "+"; float: right; color: var(--muted); font-weight: 400;
+    font-size: 22px; line-height: 1;
+  }
+  details[open] summary::after { content: "−"; }
+  details p { margin: 8px 0 4px; color: var(--muted); font-size: 15px; }
+
+  /* ---- Footer ---- */
+  footer {
+    padding: 40px 0 56px;
+    color: var(--muted);
+    font-size: 14px;
+    border-top: 1px solid var(--border);
+    margin-top: 32px;
+    text-align: center;
+  }
+  footer .links { margin: 12px 0; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+  footer .links a { color: var(--muted); }
+</style>
+</head>
+
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="logo">
+      <span class="logo-mark">L</span>
+      Lingomy
+    </div>
+
+    <h1>Английский за <span class="accent">15 минут в&nbsp;день</span></h1>
+    <p class="sub">
+      Telegram-бот для тех, кто хочет реально начать говорить.
+      Лексика Oxford 3000, AI-грамматика, умные повторения по&nbsp;системе Anki.
+    </p>
+
+    <a class="cta" href="https://t.me/lingomy_bot" target="_blank" rel="noopener">
+      📚&nbsp;&nbsp;Открыть в&nbsp;Telegram
+    </a>
+    <div class="cta-hint">7 дней Premium бесплатно при&nbsp;старте · без&nbsp;карты</div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Что внутри</h2>
+    <p class="lead">Три инструмента, которые работают вместе.</p>
+
+    <div class="cards">
+      <div class="card">
+        <span class="emoji">🎯</span>
+        <h3>3000 нужных слов</h3>
+        <p>Лексика Oxford 3000 с произношением — словарь, на котором держится 80% речи.</p>
+      </div>
+      <div class="card">
+        <span class="emoji">🧠</span>
+        <h3>SRS как в&nbsp;Anki</h3>
+        <p>Повторения по алгоритму SM-2 — система показывает слово ровно тогда, когда ты вот-вот забудешь.</p>
+      </div>
+      <div class="card">
+        <span class="emoji">🤖</span>
+        <h3>AI-объяснения</h3>
+        <p>Грамматика и разбор ошибок на русском. Можно задать любой вопрос — объяснит просто.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Как это работает</h2>
+    <p class="lead">15 минут в день — и через месяц у тебя 300 новых слов и привычка.</p>
+
+    <ol class="steps">
+      <li>
+        <div>
+          <strong>Утром — 10 минут</strong>
+          <span>Бот присылает 5-10 новых слов с произношением. Каждое — с примером и переводом.</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Вечером — 5 минут</strong>
+          <span>Короткое повторение по системе SRS. Только то, что вот-вот забудется.</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>В&nbsp;свободные 5&nbsp;минут</strong>
+          <span>Грамматика с AI-объяснениями на русском, или живой чат с AI-собеседником (Premium).</span>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Тарифы</h2>
+    <p class="lead">Free хватит чтобы понять, подходит ли. Premium — для тех, кто серьёзно.</p>
+
+    <div class="pricing">
+      <div class="plan">
+        <h3>Free</h3>
+        <div class="price">0 ₽<small> / навсегда</small></div>
+        <ul>
+          <li>5 новых слов в&nbsp;день</li>
+          <li>3 грамматических упражнения</li>
+          <li>30 повторений</li>
+          <li class="off">AI-чат с&nbsp;собеседником</li>
+          <li class="off">Кастомные темы грамматики</li>
+        </ul>
+      </div>
+      <div class="plan featured">
+        <div class="badge">7&nbsp;дней бесплатно</div>
+        <h3>Premium</h3>
+        <div class="price">$7<small> / месяц</small></div>
+        <ul>
+          <li>30 новых слов в&nbsp;день</li>
+          <li>Безлимит упражнений</li>
+          <li>Безлимит повторений</li>
+          <li>AI-чат с&nbsp;собеседником</li>
+          <li>Кастомные темы грамматики</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; color:var(--muted); margin-top: 24px; font-size: 14px;">
+      Оплата: карта · Telegram&nbsp;Stars · USDT&nbsp;(TRC-20, +5&nbsp;дней&nbsp;Premium бонусом)
+    </p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Частые вопросы</h2>
+
+    <details>
+      <summary>Сколько времени реально нужно тратить?</summary>
+      <p>15-20 минут в день. Можно разделить на «утро + вечер», можно делать одним блоком.</p>
+    </details>
+
+    <details>
+      <summary>Что если я не знаю английский совсем?</summary>
+      <p>Бот стартует с уровня A0-A1. Объясняет всё на&nbsp;русском, постепенно подводит к&nbsp;уверенному A2-B1.</p>
+    </details>
+
+    <details>
+      <summary>Чем отличается от Duolingo?</summary>
+      <p>Дешевле, заточен под русскоязычных (объяснения на русском), нет «игровой» части — больше реальной практики. И&nbsp;есть оплата в&nbsp;USDT.</p>
+    </details>
+
+    <details>
+      <summary>Что с&nbsp;моими данными?</summary>
+      <p>Храним только Telegram&nbsp;ID, прогресс и историю платежей. Можно удалить всё одной командой <code>/delete_my_data</code>. Подробнее — в&nbsp;Политике конфиденциальности.</p>
+    </details>
+
+    <details>
+      <summary>Можно вернуть деньги?</summary>
+      <p>В&nbsp;течение 7&nbsp;дней с момента покупки — да, без вопросов. Подробнее — в&nbsp;Политике возвратов.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="cta" href="https://t.me/lingomy_bot" target="_blank" rel="noopener" style="font-size:15px; padding:12px 22px;">
+      Начать&nbsp;в&nbsp;Telegram
+    </a>
+    <div class="links">
+      <a href="/terms.html">Условия использования</a>
+      <a href="/privacy.html">Конфиденциальность</a>
+      <a href="/refund.html">Возвраты</a>
+    </div>
+    <div>© 2026 Lingomy · <a href="mailto:hello@lingomy.com">hello@lingomy.com</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
