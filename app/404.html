@@ -1,24 +1,12 @@
 <!doctype html>
-<html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/app/favicon.svg" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="theme-color" content="#F4F1EA" />
-    <title>Lingomy</title>
-    <!--
-      Telegram WebApp SDK. Loaded from official CDN — required for
-      window.Telegram.WebApp to be defined when running inside the
-      Telegram client.
-    -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script type="module" crossorigin src="/app/assets/index-CvXVZTN7.js"></script>
-    <link rel="stylesheet" crossorigin href="/app/assets/index-DNVQSxvT.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script>
+    // SPA fallback: redirect /app/some/path → /app/?p=/some/path
+    var seg = window.location.pathname.replace(/^\/app/, '') || '/';
+    window.location.replace('/app/?p=' + encodeURIComponent(seg) + window.location.search);
+  </script>
+</head>
+<body></body>
 </html>
