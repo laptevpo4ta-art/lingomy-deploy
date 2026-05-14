@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <script>
-    // SPA fallback: redirect /app/some/path → /app/?p=/some/path
     var seg = window.location.pathname.replace(/^\/app/, '') || '/';
     window.location.replace('/app/?p=' + encodeURIComponent(seg) + window.location.search);
   </script>
